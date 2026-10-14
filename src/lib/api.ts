@@ -9,8 +9,10 @@ import type {
   IssueStatus,
   Member,
   Project,
+  QuickCreateInput,
   Runtime,
   SearchIssue,
+  Squad,
   UpdateIssueInput,
   User,
   Workspace,
@@ -74,9 +76,11 @@ async function request<T>(path: string, { method = "GET", workspaceId, query, bo
     const message =
       typeof errorBody?.error === "string"
         ? errorBody.error
-        : response.status === 401
-          ? "Multica rejected the token. Sign in again or update the API token preference."
-          : `Multica API error (${response.status})`;
+        : typeof errorBody?.reason === "string"
+          ? errorBody.reason
+          : response.status === 401
+            ? "Multica rejected the token. Sign in again or update the API token preference."
+            : `Multica API error (${response.status})`;
     throw new MulticaApiError(message, response.status, errorBody);
   }
 
@@ -119,6 +123,10 @@ export const createIssue = (workspaceId: string, input: CreateIssueInput) =>
 export const updateIssue = (workspaceId: string, id: string, input: UpdateIssueInput) =>
   request<Issue>(`/api/issues/${id}`, { method: "PUT", workspaceId, body: input });
 
+/** Hands `prompt` to an agent (or a squad's leader), which files the issue asynchronously. */
+export const quickCreateIssue = (workspaceId: string, input: QuickCreateInput) =>
+  request<{ task_id: string }>("/api/issues/quick-create", { method: "POST", workspaceId, body: input });
+
 export const listIssueStatuses = async (workspaceId: string) =>
   (await request<{ statuses: IssueStatus[] }>("/api/issue-statuses", { workspaceId })).statuses;
 
@@ -134,6 +142,7 @@ export const listProjects = async (workspaceId: string) =>
 // Agents & runtimes
 
 export const listAgents = (workspaceId: string) => request<Agent[]>("/api/agents", { workspaceId });
+export const listSquads = (workspaceId: string) => request<Squad[]>("/api/squads", { workspaceId });
 export const listRuntimes = (workspaceId: string) => request<Runtime[]>("/api/runtimes", { workspaceId });
 export const listAgentTasks = (workspaceId: string, agentId: string, limit = 25) =>
   request<AgentTask[]>(`/api/agents/${agentId}/tasks`, { workspaceId, query: { limit } });

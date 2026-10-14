@@ -27,6 +27,13 @@
       "mode": "view"
     },
     {
+      "name": "delegate-task",
+      "title": "Delegate Task",
+      "subtitle": "Multica",
+      "description": "Describe the work and an agent writes and files the issue for you (Multica's Agent mode)",
+      "mode": "view"
+    },
+    {
       "name": "inbox",
       "title": "My Inbox",
       "subtitle": "Multica",

@@ -5,6 +5,7 @@ import { PRIORITIES, actorIcon, issueUrl, statusIcon, statusOptions } from "../l
 import type { WorkspaceContext } from "../lib/hooks";
 import type { Issue, UpdateIssueInput } from "../lib/types";
 import { CommentForm } from "./CommentForm";
+import { DelegateForm } from "./DelegateForm";
 import { IssueDetail } from "./IssueDetail";
 
 async function applyUpdate(context: WorkspaceContext, issue: Issue, patch: UpdateIssueInput, onChange?: () => void) {
@@ -109,6 +110,12 @@ export function IssueActions(props: {
             />
           )}
         </ActionPanel.Submenu>
+        <Action.Push
+          title="Delegate Sub-Issue"
+          icon={Icon.Stars}
+          shortcut={{ modifiers: ["cmd", "shift"], key: "d" }}
+          target={<DelegateForm parentIssue={issue} />}
+        />
         <Action.Push
           title="Add Comment"
           icon={Icon.SpeechBubble}

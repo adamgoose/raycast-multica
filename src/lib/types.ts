@@ -157,6 +157,27 @@ export interface Project {
   status: string;
 }
 
+export interface Squad {
+  id: string;
+  name: string;
+  description: string;
+  avatar_url?: string | null;
+  leader_id: string;
+  member_count: number;
+  archived_at?: string | null;
+}
+
+/** Agent mode: the agent turns `prompt` into an issue in the background. */
+export interface QuickCreateInput {
+  prompt: string;
+  agent_id?: string;
+  squad_id?: string;
+  priority?: Exclude<Priority, "none">;
+  due_date?: string;
+  project_id?: string;
+  parent_issue_id?: string;
+}
+
 export interface CreateIssueInput {
   title: string;
   description?: string;
