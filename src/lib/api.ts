@@ -1,4 +1,5 @@
-import { getCredentials } from "./config";
+import { getCredentials, isDemoMode } from "./config";
+import { DemoNotFoundError, demoRequest } from "./demo";
 import type {
   Agent,
   AgentTask,
@@ -47,6 +48,15 @@ async function request<T>(path: string, { method = "GET", workspaceId, query, bo
   const url = new URL(serverUrl + path);
   for (const [key, value] of Object.entries(query ?? {})) {
     if (value !== undefined && value !== "") url.searchParams.set(key, String(value));
+  }
+
+  if (isDemoMode()) {
+    try {
+      return await demoRequest<T>({ method, path, workspaceId, query: url.searchParams, body });
+    } catch (error) {
+      if (error instanceof DemoNotFoundError) throw new MulticaApiError(error.message, 404, undefined);
+      throw error;
+    }
   }
 
   const headers: Record<string, string> = {

@@ -96,6 +96,15 @@
       "type": "textfield",
       "required": false,
       "placeholder": "https://multica.ai"
+    },
+    {
+      "name": "demoMode",
+      "title": "Demo Mode",
+      "label": "Show sample data",
+      "description": "Use built-in sample workspaces, issues, and agents instead of your Multica account. Nothing is sent to Multica.",
+      "type": "checkbox",
+      "default": false,
+      "required": false
     }
   ],
   "dependencies": {

@@ -42,6 +42,10 @@ To set auth explicitly, open the extension preferences:
 - **CLI Profile**: which `~/.multica/profiles/<name>` to read.
 - **API URL** and **Web App URL**: point the extension at a self-hosted Multica.
 
+## Demo Mode
+
+Turn on **Demo Mode** in the extension preferences to explore every command with built-in sample data: a fictional "Acme" team with issues, agents, runtimes, and notifications. Nothing is sent to Multica, and changes you make (status, comments, new issues) last only while the command is open. It's also how the Store screenshots are made.
+
 ## Development
 
 ```bash

@@ -77,12 +77,22 @@ function defaultAppUrl(serverUrl: string): string {
 
 let cached: Credentials | undefined;
 
+/** Demo Mode serves sample data from `demo.ts` and never touches the network. */
+export function isDemoMode(): boolean {
+  return Boolean(getPreferenceValues<Preferences>().demoMode);
+}
+
 export function getCredentials(): Credentials {
   if (cached) return cached;
 
   const prefs = getPreferenceValues<Preferences>();
   const prefServer = prefs.serverUrl?.trim() ? trimSlash(prefs.serverUrl.trim()) : undefined;
   const prefApp = prefs.appUrl?.trim() ? trimSlash(prefs.appUrl.trim()) : undefined;
+
+  if (prefs.demoMode) {
+    cached = { serverUrl: DEFAULT_SERVER_URL, appUrl: DEFAULT_APP_URL, token: "demo", source: "Demo Mode" };
+    return cached;
+  }
 
   if (prefs.apiToken?.trim()) {
     const serverUrl = prefServer ?? DEFAULT_SERVER_URL;
