@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-  <g stroke="#000000" stroke-width="1.6" fill="none">
-    <line x1="8" y1="1.5" x2="8" y2="14.5"/>
-    <line x1="1.5" y1="8" x2="14.5" y2="8"/>
-    <line x1="3.4" y1="3.4" x2="12.6" y2="12.6"/>
-    <line x1="12.6" y1="3.4" x2="3.4" y2="12.6"/>
+  <g fill="#000000">
+    <rect x="7.1" y="1.5" width="1.8" height="13"/>
+    <rect x="7.1" y="1.5" width="1.8" height="13" transform="rotate(45 8 8)"/>
+    <rect x="7.1" y="1.5" width="1.8" height="13" transform="rotate(90 8 8)"/>
+    <rect x="7.1" y="1.5" width="1.8" height="13" transform="rotate(135 8 8)"/>
   </g>
 </svg>

@@ -1,4 +1,5 @@
 import {
+  Color,
   Icon,
   LaunchType,
   MenuBarExtra,
@@ -8,14 +9,20 @@ import {
   openExtensionPreferences,
 } from "@raycast/api";
 import { useCachedPromise } from "@raycast/utils";
-import { workspaceIcon } from "./components/WorkspaceDropdown";
 import type { InboxLaunchContext } from "./inbox";
 import { getCredentials } from "./lib/config";
 import { webUrl } from "./lib/format";
 import { fetchInboxCounts, totalUnread } from "./lib/inbox-counts";
 import type { Workspace } from "./lib/types";
 
-const MENU_BAR_ICON = { source: { light: "menu-bar-icon.svg", dark: "menu-bar-icon@dark.svg" } };
+// Tinting with PrimaryText makes Raycast draw this as a template image, so it follows the
+// menu bar's own appearance (which tracks the wallpaper, not the system light/dark mode).
+const MENU_BAR_ICON = { source: "menu-bar-icon.svg", tintColor: Color.PrimaryText };
+
+// Generated initials avatars use SVG gradients and text, which the menu bar renders as
+// solid black, so menu items use plain status icons instead.
+const unreadIcon = (count: number) =>
+  count > 0 ? { source: Icon.CircleFilled, tintColor: Color.Orange } : { source: Icon.CheckCircle };
 
 function openInbox(workspace: Workspace) {
   const context: InboxLaunchContext = { workspaceId: workspace.id };
@@ -48,14 +55,14 @@ export default function InboxMenuBar() {
               key={workspace.id}
               title={workspace.name}
               subtitle={count > 0 ? `${count} unread` : "All caught up"}
-              icon={workspaceIcon(workspace)}
+              icon={unreadIcon(count)}
               tooltip={`Open ${workspace.name} in My Inbox`}
               onAction={() => openInbox(workspace)}
               alternate={
                 <MenuBarExtra.Item
                   title={workspace.name}
                   subtitle="Open Inbox in Browser"
-                  icon={workspaceIcon(workspace)}
+                  icon={Icon.Globe}
                   onAction={() => open(webUrl(workspace, "inbox"))}
                 />
               }
