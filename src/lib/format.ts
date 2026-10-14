@@ -111,6 +111,21 @@ export function actorName(
   return "Multica";
 }
 
+const AVATAR_EMOJI_PREFIX = "emoji:";
+
+/**
+ * Turns an `avatar_url` into an icon. Multica stores emoji avatars (the default
+ * for new agents) as `emoji:<emoji>`, which Raycast can render as-is.
+ */
+export function avatarIcon(
+  avatarUrl: string | null | undefined,
+  mask: Image.Mask = Image.Mask.Circle,
+): Image.ImageLike | undefined {
+  if (!avatarUrl) return undefined;
+  if (avatarUrl.startsWith(AVATAR_EMOJI_PREFIX)) return avatarUrl.slice(AVATAR_EMOJI_PREFIX.length).trim() || undefined;
+  return { source: avatarUrl, mask };
+}
+
 export function actorIcon(
   type: ActorType | "system" | null | undefined,
   id: string | null | undefined,
@@ -118,13 +133,11 @@ export function actorIcon(
 ): Image.ImageLike {
   if (type === "agent") {
     const agent = dir.agents?.find((a) => a.id === id);
-    if (agent?.avatar_url) return { source: agent.avatar_url, mask: Image.Mask.Circle };
-    return { source: Icon.Stars, tintColor: Color.Purple };
+    return avatarIcon(agent?.avatar_url) ?? { source: Icon.Stars, tintColor: Color.Purple };
   }
   if (type === "member") {
     const member = dir.members?.find((m) => m.user_id === id);
-    if (member?.avatar_url) return { source: member.avatar_url, mask: Image.Mask.Circle };
-    return getAvatarIcon(member?.name ?? "?");
+    return avatarIcon(member?.avatar_url) ?? getAvatarIcon(member?.name ?? "?");
   }
   return Icon.PersonCircle;
 }

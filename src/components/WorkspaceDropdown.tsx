@@ -1,11 +1,10 @@
 import { Image, List } from "@raycast/api";
 import { getAvatarIcon } from "@raycast/utils";
+import { avatarIcon } from "../lib/format";
 import type { Workspace } from "../lib/types";
 
 export function workspaceIcon(workspace: Workspace): Image.ImageLike {
-  return workspace.avatar_url
-    ? { source: workspace.avatar_url, mask: Image.Mask.RoundedRectangle }
-    : getAvatarIcon(workspace.name);
+  return avatarIcon(workspace.avatar_url, Image.Mask.RoundedRectangle) ?? getAvatarIcon(workspace.name);
 }
 
 export function WorkspaceDropdown(props: {
