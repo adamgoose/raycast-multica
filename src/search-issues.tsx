@@ -53,19 +53,23 @@ export default function SearchIssues() {
     for (const issue of sorted) groups.set(issue.status, [...(groups.get(issue.status) ?? []), issue]);
   }
 
+  const loading = workspaceLoading || contextLoading || isLoading;
+
   return (
     <List
-      isLoading={workspaceLoading || contextLoading || isLoading}
+      isLoading={loading}
       searchBarPlaceholder={workspace ? `Search issues in ${workspace.name}` : "Search issues"}
       onSearchTextChange={setSearchText}
       filtering={false}
       throttle
       searchBarAccessory={<WorkspaceDropdown workspaces={workspaces} value={workspace} onChange={setWorkspaceId} />}
     >
-      <List.EmptyView
-        title={query ? "No matching issues" : "No open issues"}
-        description={query ? "Closed issues are included in search results." : undefined}
-      />
+      {!loading && (
+        <List.EmptyView
+          title={query ? "No matching issues" : "No open issues"}
+          description={query ? "Closed issues are included in search results." : undefined}
+        />
+      )}
       {context &&
         (query ? (
           <List.Section title="Results" subtitle={String(issues?.length ?? 0)}>

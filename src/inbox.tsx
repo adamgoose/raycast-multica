@@ -54,17 +54,21 @@ export default function Inbox(props: LaunchProps<{ launchContext?: InboxLaunchCo
   const notifications = (inbox.data ?? []).filter((item) => !item.archived);
   const unread = notifications.filter((item) => !item.read).length;
 
+  const loading = workspaceLoading || contextLoading || inbox.isLoading || assigned.isLoading;
+
   return (
     <List
-      isLoading={workspaceLoading || contextLoading || inbox.isLoading || assigned.isLoading}
+      isLoading={loading}
       searchBarPlaceholder="Filter notifications and issues"
       searchBarAccessory={<WorkspaceDropdown workspaces={workspaces} value={workspace} onChange={setWorkspaceId} />}
     >
-      <List.EmptyView
-        title="Inbox zero"
-        description="No notifications or open issues assigned to you."
-        icon={Icon.Tray}
-      />
+      {!loading && (
+        <List.EmptyView
+          title="Inbox zero"
+          description="No notifications or open issues assigned to you."
+          icon={Icon.Tray}
+        />
+      )}
       {context && (
         <>
           <List.Section title="Notifications" subtitle={unread ? `${unread} unread` : undefined}>

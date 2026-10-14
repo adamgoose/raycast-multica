@@ -51,7 +51,7 @@ export function IssueActions(props: {
       </ActionPanel.Section>
 
       <ActionPanel.Section>
-        <ActionPanel.Submenu title="Set Status" icon={Icon.Circle} shortcut={Keyboard.Shortcut.Common.Save}>
+        <ActionPanel.Submenu title="Set Status…" icon={Icon.Circle} shortcut={{ modifiers: ["opt", "cmd"], key: "s" }}>
           {statusOptions(context.statuses).map((s) => (
             <Action
               key={s.key}
@@ -62,7 +62,7 @@ export function IssueActions(props: {
           ))}
         </ActionPanel.Submenu>
         <ActionPanel.Submenu
-          title="Set Priority"
+          title="Set Priority…"
           icon={Icon.FullSignal}
           shortcut={{ modifiers: ["cmd", "shift"], key: "p" }}
         >
@@ -71,7 +71,7 @@ export function IssueActions(props: {
           ))}
         </ActionPanel.Submenu>
         <ActionPanel.Submenu
-          title="Assign to"
+          title="Assign to…"
           icon={Icon.AddPerson}
           shortcut={{ modifiers: ["cmd", "shift"], key: "a" }}
         >

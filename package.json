@@ -54,7 +54,7 @@
       "subtitle": "Multica",
       "description": "Keeps each workspace's unread count in this command's subtitle. Run it to open My Inbox.",
       "mode": "no-view",
-      "interval": "2m"
+      "interval": "5m"
     },
     {
       "name": "agents",
@@ -70,14 +70,16 @@
       "title": "API Token",
       "description": "Optional. A Multica personal access token (Settings → Tokens). Leave empty to reuse the login from the Multica desktop app or CLI (~/.multica).",
       "type": "password",
-      "required": false
+      "required": false,
+      "placeholder": "mul_…"
     },
     {
       "name": "profile",
       "title": "CLI Profile",
       "description": "Optional. Which ~/.multica profile to read when no API token is set, e.g. desktop-api.multica.ai. Defaults to the main config, then the most recently used profile.",
       "type": "textfield",
-      "required": false
+      "required": false,
+      "placeholder": "desktop-api.multica.ai"
     },
     {
       "name": "serverUrl",

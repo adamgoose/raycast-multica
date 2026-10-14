@@ -162,7 +162,7 @@ function AgentRuns(props: { agent: Agent; context: WorkspaceContext }) {
 
   return (
     <List navigationTitle={`${agent.name} · Recent Runs`} isLoading={isLoading} searchBarPlaceholder="Filter runs">
-      <List.EmptyView title="No runs yet" icon={Icon.Stars} />
+      {!isLoading && <List.EmptyView title="No runs yet" icon={Icon.Stars} />}
       {data?.map(({ task, issue }) => {
         const status = TASK_STATUS[task.status] ?? TASK_STATUS.queued;
         const duration = runDuration(task);
