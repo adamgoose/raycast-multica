@@ -148,5 +148,13 @@ export const setInboxRead = (workspaceId: string, id: string, read: boolean) =>
 export const archiveInboxItem = (workspaceId: string, id: string) =>
   request<unknown>(`/api/inbox/${id}/archive`, { method: "POST", workspaceId });
 
+/**
+ * Unread inbox counts for every workspace the user belongs to. The route sits
+ * behind workspace membership, so any one of the user's workspaces is sent.
+ * Workspaces with nothing unread may be omitted.
+ */
+export const getUnreadInboxSummary = (anyWorkspaceId: string) =>
+  request<{ workspace_id: string; count: number }[]>("/api/inbox/unread-summary", { workspaceId: anyWorkspaceId });
+
 export const markAllInboxRead = (workspaceId: string) =>
   request<unknown>("/api/inbox/mark-all-read", { method: "POST", workspaceId });

@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Color, Icon, Keyboard, List, Toast, showToast } from "@raycast/api";
+import { Action, ActionPanel, Color, Icon, Keyboard, LaunchProps, List, Toast, showToast } from "@raycast/api";
 import { showFailureToast, useCachedPromise } from "@raycast/utils";
 import { useEffect } from "react";
 import { ErrorEmptyView } from "./components/ErrorEmptyView";
@@ -10,8 +10,18 @@ import { INBOX_SEVERITY, actorIcon, actorName, webUrl } from "./lib/format";
 import { WorkspaceContext, useWorkspace, useWorkspaceContext } from "./lib/hooks";
 import type { InboxItem } from "./lib/types";
 
-export default function Inbox() {
-  const { workspaces, workspace, setWorkspaceId, isLoading: workspaceLoading, error } = useWorkspace();
+export interface InboxLaunchContext {
+  workspaceId?: string;
+}
+
+export default function Inbox(props: LaunchProps<{ launchContext?: InboxLaunchContext }>) {
+  const {
+    workspaces,
+    workspace,
+    setWorkspaceId,
+    isLoading: workspaceLoading,
+    error,
+  } = useWorkspace(props.launchContext?.workspaceId);
   const { context, isLoading: contextLoading } = useWorkspaceContext(workspace);
   const workspaceId = workspace?.id ?? "";
   const myId = context?.me?.id;

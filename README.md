@@ -9,6 +9,8 @@ Work with [Multica](https://multica.ai) issues, inbox, and agents from Raycast.
 | **Search Issues** | Open issues grouped by status. Type to search every issue, including closed ones. |
 | **Create Issue** | Title, description, status, priority, assignee (a teammate or an agent), and project. Warns you about likely duplicates. |
 | **My Inbox** | Your notifications plus the open issues assigned to you. Mark read or unread (⇧⌘R), archive (⌃D), or open the issue. |
+| **Inbox Menu Bar** | Total unread count in the macOS menu bar. Open it to see each workspace's count. Click a workspace to open it in My Inbox, or hold ⌥ to open that inbox in the browser. Refreshes every 2 minutes. |
+| **Inbox Counts** | Shows each workspace's unread count as this command's subtitle in Raycast's root search (e.g. "SATO48 3 · Personal 0"). Refreshes every 2 minutes in the background. Running it opens My Inbox. |
 | **Agents & Runtimes** | Agent status and model, each agent's recent runs, and which runtimes are online. |
 
 Each issue offers these actions:

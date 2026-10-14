@@ -1,4 +1,5 @@
 import { useCachedPromise, useCachedState } from "@raycast/utils";
+import { useEffect, useState } from "react";
 import { getMe, listAgents, listIssueStatuses, listMembers, listWorkspaces } from "./api";
 import { getCredentials } from "./config";
 import type { Agent, IssueStatus, Member, User, Workspace } from "./types";
@@ -14,13 +15,27 @@ function preferredWorkspaceId(): string | undefined {
   }
 }
 
-/** The workspace list plus the selected workspace, shared across commands. */
-export function useWorkspace() {
+/**
+ * The workspace list plus the selected workspace, shared across commands.
+ * `launchWorkspaceId` (e.g. from the menu bar) wins and becomes the new selection.
+ */
+export function useWorkspace(launchWorkspaceId?: string) {
   const { data: workspaces, isLoading, error } = useCachedPromise(listWorkspaces, [], { onError: ignoreError });
-  const [selectedId, setWorkspaceId] = useCachedState<string | undefined>("workspace-id", undefined);
+  const [selectedId, setSelectedId] = useCachedState<string | undefined>("workspace-id", undefined);
+  const [override, setOverride] = useState(launchWorkspaceId);
 
+  useEffect(() => {
+    if (launchWorkspaceId) setSelectedId(launchWorkspaceId);
+  }, [launchWorkspaceId]);
+
+  const setWorkspaceId = (id: string) => {
+    setOverride(undefined);
+    setSelectedId(id);
+  };
+
+  const wantedId = override ?? selectedId;
   const workspace =
-    workspaces?.find((w) => w.id === selectedId) ??
+    workspaces?.find((w) => w.id === wantedId) ??
     workspaces?.find((w) => w.id === preferredWorkspaceId()) ??
     workspaces?.[0];
 
